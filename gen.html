@@ -1,259 +1,211 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rowatel – minimalist premium</title>
-    <script>
-        if (localStorage.getItem("license_valid") !== "true") {
-            window.location.href = "license.html";
-        }
-    </script>
-    <style>
-        /* PREMIUM BLACK & WHITE – CLEAN DESIGN */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>rowatel — Premium Studio Edition</title>
+<script>
+    // Lightweight license gate (unchanged)
+    if (localStorage.getItem("license_valid") !== "true") {
+        window.location.href = "license.html";
+    }
+</script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+    --bg-1:#f7f8fa;
+    --bg-2:#ffffff;
+    --panel:#fbfbfc;
+    --muted:#7a7a82;
+    --text:#0b0b0b;
+    --accent:#0a0a0a;
+    --accent-2:#111111;
+    --glass: rgba(255,255,255,0.6);
+    --glass-2: rgba(10,10,10,0.03);
+    --shadow-1: 0 12px 40px rgba(10,10,10,0.06);
+    --shadow-2: 0 6px 20px rgba(10,10,10,0.04);
+    --success: #2e7d32;
+    --error: #c62828;
+    --radius: 16px;
+    --radius-sm:10px;
+    --transition: 220ms cubic-bezier(.2,.9,.3,1);
+}
 
-        :root{
-            --bg: #ffffff;
-            --card-bg: #fbfbfb;
-            --panel: #ffffff;
-            --text: #0b0b0b;
-            --muted: #6b6b6b;
-            --border: #e6e6e6;
-            --accent: #000000;
-            --shadow: rgba(11,11,11,0.06);
-            --success: #2e7d32;
-            --error: #c62828;
-        }
+/* Global reset */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+    margin:0;
+    font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg, var(--bg-1) 0%, #eef1f6 100%);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:48px;
+}
 
-        *{box-sizing: border-box}
-        body{
-            margin:0;
-            min-height:100vh;
-            font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
-            background: linear-gradient(180deg, var(--bg) 0%, #f3f3f3 100%);
-            color:var(--text);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            padding:32px;
-        }
+/* Layout */
+.shell{
+    width:100%;
+    max-width:980px;
+    display:grid;
+    grid-template-columns: 1fr 420px;
+    gap:32px;
+    align-items:start;
+}
 
-        .card{
-            width:100%;
-            max-width:520px;
-            background:var(--panel);
-            border:1px solid var(--border);
-            border-radius:14px;
-            padding:28px;
-            box-shadow:0 8px 30px var(--shadow);
-            overflow:hidden;
-        }
+/* Left: form area */
+.panel{
+    background:var(--panel);
+    border-radius:var(--radius);
+    padding:32px;
+    box-shadow:var(--shadow-1);
+    border:1px solid rgba(10,10,10,0.03);
+    position:relative;
+    overflow:hidden;
+}
 
-        header{
-            display:flex;
-            gap:12px;
-            align-items:center;
-            margin-bottom:18px;
-        }
+/* Subtle decorative strokes */
+.panel:before{
+    content:"";
+    position:absolute;
+    right:-120px;
+    top:-60px;
+    width:320px;
+    height:320px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(10,10,10,0.02));
+    transform:rotate(18deg);
+    filter:blur(24px);
+    opacity:0.6;
+    pointer-events:none;
+}
 
-        .logo{
-            width:56px;
-            height:56px;
-            border-radius:10px;
-            background:linear-gradient(180deg,#fff,#f2f2f2);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            border:1px solid var(--border);
-            font-weight:700;
-            letter-spacing:1px;
-            font-size:18px;
-            color:var(--accent);
-        }
+.brand{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    margin-bottom:10px;
+}
+.logo{
+    width:64px;height:64px;border-radius:12px;
+    background:linear-gradient(180deg,#fff,#f2f4f8);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;color:var(--accent-2);font-family:Playfair Display,serif;
+    box-shadow: 0 6px 20px rgba(10,10,10,0.05);
+    border:1px solid rgba(10,10,10,0.03);
+}
+.title{
+    line-height:1;
+}
+.title h1{margin:0;font-size:20px;letter-spacing:0.4px;font-weight:700}
+.title p{margin:4px 0 0 0;color:var(--muted);font-size:13px}
 
-        h1{
-            margin:0;
-            font-size:18px;
-            letter-spacing:0.6px;
-        }
+/* form grid */
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    margin-top:18px;
+}
 
-        p.lead{
-            margin:6px 0 0 0;
-            font-size:13px;
-            color:var(--muted);
-        }
+/* wide column */
+.col-full{grid-column:1/-1}
 
-        form{margin-top:14px;}
+/* Labels and inputs */
+.field{display:flex;flex-direction:column}
+label{font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:600}
+.input, select, .file-button{
+    padding:12px 14px;border-radius:10px;border:1px solid rgba(10,10,10,0.06);
+    background:linear-gradient(180deg,#fff,#fbfbfd);
+    font-size:14px;color:var(--text);outline:none;transition:box-shadow var(--transition),transform var(--transition),border-color var(--transition);
+    box-shadow:var(--shadow-2);
+}
+.input:focus, select:focus, .file-button:focus{box-shadow:0 12px 30px rgba(10,10,10,0.06); border-color:rgba(10,10,10,0.12)}
 
-        .grid{
-            display:grid;
-            grid-template-columns:1fr 1fr;
-            gap:12px;
-        }
+/* file upload custom */
+.file-wrapper{display:flex;flex-direction:column;gap:8px}
+.file-button{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer}
+.file-button span{font-weight:600;color:var(--accent-2)}
+.file-note{font-size:12px;color:var(--muted)}
 
-        .full{grid-column:1/-1}
+/* preview */
+.preview{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;border:1px dashed rgba(10,10,10,0.04);background:linear-gradient(180deg, rgba(250,250,250,0.6), transparent);overflow:hidden}
+.preview img{width:86px;height:86px;object-fit:cover;border-radius:8px;box-shadow:0 6px 20px rgba(10,10,10,0.05)}
 
-        label{
-            display:block;
-            font-size:12px;
-            color:var(--muted);
-            margin-bottom:6px;
-            font-weight:600;
-        }
+/* controls */
+.controls{display:flex;gap:12px;margin-top:22px;align-items:center}
+.btn{
+    padding:12px 16px;border-radius:12px;border:1px solid rgba(10,10,10,0.06);cursor:pointer;font-weight:700;transition:all var(--transition);
+}
+.btn-ghost{background:transparent;color:var(--accent-2)}
+.btn-primary{background:linear-gradient(180deg,#0b0b0b,#222);color:#fff;border:none;box-shadow:0 18px 40px rgba(11,11,11,0.12);padding:12px 20px}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 28px 60px rgba(11,11,11,0.16)}
 
-        input[type="text"],
-        input[type="date"],
-        select,
-        .custom-file-label{
-            width:100%;
-            padding:12px 14px;
-            border-radius:10px;
-            border:1px solid var(--border);
-            background:var(--card-bg);
-            font-size:14px;
-            color:var(--text);
-            outline:none;
-            transition:box-shadow .15s ease, border-color .15s ease;
-        }
+.small-note{font-size:13px;color:var(--muted);margin-top:10px}
 
-        input:focus, select:focus, .custom-file-label:focus{
-            box-shadow:0 6px 20px rgba(0,0,0,0.04);
-            border-color:var(--accent);
-        }
+/* right panel (preview & meta) */
+.side{
+    background:linear-gradient(180deg,#fff,#fbfbfd);
+    padding:26px;border-radius:var(--radius);box-shadow:var(--shadow-1);border:1px solid rgba(10,10,10,0.03);
+    position:sticky; top:48px; height:fit-content;
+}
+.side h3{margin:0 0 10px 0;font-size:15px}
+.card-preview{border-radius:10px;padding:16px;background:linear-gradient(180deg,#fff,#fafafa);border:1px solid rgba(10,10,10,0.04);box-shadow:var(--shadow-2)}
 
-        select{appearance:none;background-image:none;}
+/* preview layout mimic id card */
+.preview-id{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:center}
+.preview-id .meta{display:flex;flex-direction:column;gap:4px}
+.preview-id .meta .name{font-weight:800;font-size:16px}
+.preview-id .meta .sub{font-size:13px;color:var(--muted)}
 
-        .field{margin-bottom:12px;}
+/* instruction */
+.details{margin-top:14px;padding:12px;border-radius:10px;background:linear-gradient(180deg,#fff,#fbfbfd);border:1px solid rgba(10,10,10,0.03)}
 
-        .muted-note{font-size:12px;color:var(--muted);margin-top:6px}
+/* footer small */
+.footer{margin-top:18px;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;align-items:center}
 
-        .autofill{
-            display:flex;
-            gap:10px;
-            align-items:center;
-            margin:8px 0 18px 0;
-        }
+/* micro interactions */
+.input--has-value{box-shadow:0 14px 40px rgba(10,10,10,0.06);border-color:rgba(10,10,10,0.12)}
+.field .hint{font-size:12px;color:var(--muted);margin-top:6px}
 
-        button.primary{
-            width:100%;
-            padding:14px 16px;
-            border-radius:10px;
-            border:1px solid #000;
-            background:#000;
-            color:#fff;
-            font-weight:700;
-            font-size:15px;
-            cursor:pointer;
-            box-shadow:0 10px 30px rgba(0,0,0,0.08);
-            transition:transform .12s ease, opacity .12s ease;
-        }
-
-        button.primary:active{transform:translateY(1px)}
-        button.primary:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
-
-        .divider{
-            height:1px;
-            background:var(--border);
-            margin:18px 0;
-            border-radius:2px;
-        }
-
-        .footer{
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            gap:12px;
-            margin-top:12px;
-            font-size:13px;
-            color:var(--muted);
-        }
-
-        .brand-strong{
-            font-weight:800;
-            color:var(--text);
-            font-size:16px;
-            letter-spacing:1.5px;
-        }
-
-        /* file upload */
-        .file-wrapper{position:relative;}
-        #fileInput{position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;cursor:pointer}
-        .custom-file-label{
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:12px;
-        }
-        .preview{
-            margin-top:10px;
-            border-radius:8px;
-            overflow:hidden;
-            border:1px dashed var(--border);
-            display:none;
-            padding:6px;
-        }
-        .preview img{max-width:100%;display:block;height:96px;object-fit:cover;border-radius:6px}
-
-        .status{
-            font-size:13px;
-            color:var(--muted);
-            min-height:18px;
-            margin-top:8px;
-        }
-
-        details.instruction{
-            margin-bottom:10px;
-            border-radius:8px;
-            padding:8px;
-            border:1px solid var(--border);
-            background:linear-gradient(180deg,#fff,#fafafa);
-        }
-        details.instruction summary{
-            font-weight:700;
-            cursor:pointer;
-            list-style:none;
-        }
-        details.instruction[open] summary{color:var(--text)}
-
-        @media (max-width:520px){
-            .grid{grid-template-columns:1fr}
-            .card{padding:18px}
-        }
-    </style>
+/* responsive */
+@media (max-width:980px){
+    .shell{grid-template-columns:1fr; padding:18px; gap:20px}
+    .side{position:relative; top:0}
+}
+</style>
 </head>
 <body>
-    <main class="card" role="main" aria-labelledby="title">
-        <header>
+<main class="shell" aria-labelledby="main-title">
+    <section class="panel" aria-labelledby="form-title">
+        <div class="brand" role="img" aria-hidden="false">
             <div class="logo">RW</div>
-            <div>
-                <h1 id="title">rowatel v4 — Premium</h1>
-                <p class="lead">Minimalistyczny, czarno-biały interface — zachowano wszystkie przekierowania i funkcje.</p>
+            <div class="title">
+                <h1 id="form-title">rowatel — Studio Edition</h1>
+                <p>Perfekcyjna dbałość o detale — interfejs premium dla profesjonalistów.</p>
             </div>
-        </header>
+        </div>
 
-        <details class="instruction" open>
-            <summary>Instrukcja: jak dodać jako skrót (mobile)</summary>
-            <div style="margin-top:8px;font-size:13px;color:var(--muted)">
-                iOS: Safari → Udostępnij → \"Dodaj do ekranu głównego\". &nbsp; Android: Chrome → Menu → \"Dodaj do ekranu głównego\".
-            </div>
-        </details>
-
-        <form id="dataGenerator" novalidate>
-            <div class="grid">
+        <form id="dataGenerator" novalidate aria-describedby="form-desc">
+            <div id="form-desc" class="small-note">Wypełnij pola poniżej. Wszystkie przekierowania i logika pozostają bez zmian.</div>
+            <div class="form-grid" role="group" aria-label="Dane osobowe">
                 <div class="field">
                     <label for="name">Imię</label>
-                    <input id="name" name="name" type="text" placeholder="Jan" required>
+                    <input id="name" name="name" class="input" type="text" placeholder="Jan" required>
                 </div>
 
                 <div class="field">
                     <label for="surname">Nazwisko</label>
-                    <input id="surname" name="surname" type="text" placeholder="Kowalski" required>
+                    <input id="surname" name="surname" class="input" type="text" placeholder="Kowalski" required>
                 </div>
 
                 <div class="field">
                     <label for="sex">Płeć</label>
-                    <select id="sex" name="sex" required>
+                    <select id="sex" name="sex" class="input" required>
                         <option value="MĘŻCZYZNA">MĘŻCZYZNA</option>
                         <option value="KOBIETA">KOBIETA</option>
                     </select>
@@ -261,332 +213,383 @@
 
                 <div class="field">
                     <label for="birthday">Data urodzenia</label>
-                    <input id="birthday" name="birthday" type="date" required>
+                    <input id="birthday" name="birthday" class="input" type="date" required>
                 </div>
 
-                <div class="field full">
+                <div class="field col-full">
                     <label for="pesel">Numer PESEL</label>
-                    <input id="pesel" name="pesel" type="text" placeholder="11-cyfrowy numer" maxlength="11" pattern="[0-9]{11}" required>
+                    <input id="pesel" name="pesel" class="input" type="text" placeholder="11-cyfrowy numer" maxlength="11" pattern="[0-9]{11}" required>
+                    <div class="hint">PESEL możesz wygenerować automatycznie klikając przycisk „Wypełnij daty”.</div>
                 </div>
 
                 <div class="field">
                     <label for="mdow_series">Seria i numer mDowodu</label>
-                    <input id="mdow_series" name="mdow_series" type="text" placeholder="MWYC XXXXX" required>
+                    <input id="mdow_series" name="mdow_series" class="input" type="text" placeholder="MWYC XXXXX" required>
                 </div>
 
                 <div class="field">
                     <label for="issue_date">Data wydania mDowodu (DD.MM.RRRR)</label>
-                    <input id="issue_date" name="issue_date" type="text" placeholder="14.07.2023" maxlength="10" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" required>
+                    <input id="issue_date" name="issue_date" class="input" type="text" placeholder="14.07.2023" maxlength="10" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" required>
                 </div>
 
                 <div class="field">
                     <label for="expiry_date">Termin ważności mDowodu (DD.MM.RRRR)</label>
-                    <input id="expiry_date" name="expiry_date" type="text" placeholder="14.07.2028" maxlength="10" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" required>
+                    <input id="expiry_date" name="expiry_date" class="input" type="text" placeholder="14.07.2028" maxlength="10" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" required>
                 </div>
 
                 <div class="field">
                     <label for="father_name">Imię ojca</label>
-                    <input id="father_name" name="father_name" type="text" placeholder="Maciej" required>
+                    <input id="father_name" name="father_name" class="input" type="text" placeholder="Maciej" required>
                 </div>
 
                 <div class="field">
                     <label for="mother_name">Imię matki</label>
-                    <input id="mother_name" name="mother_name" type="text" placeholder="Ewa" required>
+                    <input id="mother_name" name="mother_name" class="input" type="text" placeholder="Ewa" required>
                 </div>
 
                 <div class="field">
                     <label for="nationality">Obywatelstwo</label>
-                    <input id="nationality" name="nationality" type="text" placeholder="POLSKIE" required>
+                    <input id="nationality" name="nationality" class="input" type="text" placeholder="POLSKIE" required>
                 </div>
 
                 <div class="field">
                     <label for="birthPlace">Miejsce urodzenia</label>
-                    <input id="birthPlace" name="birthPlace" type="text" placeholder="Warszawa" required>
+                    <input id="birthPlace" name="birthPlace" class="input" type="text" placeholder="Warszawa" required>
                 </div>
 
                 <div class="field">
                     <label for="birth_country">Kraj urodzenia</label>
-                    <input id="birth_country" name="birth_country" type="text" placeholder="Polska" required>
+                    <input id="birth_country" name="birth_country" class="input" type="text" placeholder="Polska" required>
                 </div>
 
-                <div class="field full">
+                <div class="field col-full">
                     <label for="adress1">Adres (Ulica i numer)</label>
-                    <input id="adress1" name="adress1" type="text" placeholder="Chopina 4/56" required>
+                    <input id="adress1" name="adress1" class="input" type="text" placeholder="Chopina 4/56" required>
                 </div>
 
                 <div class="field">
                     <label for="adress2">Kod pocztowy / nr</label>
-                    <input id="adress2" name="adress2" type="text" placeholder="42-250">
+                    <input id="adress2" name="adress2" class="input" type="text" placeholder="42-250">
                 </div>
 
                 <div class="field">
                     <label for="city">Miasto</label>
-                    <input id="city" name="city" type="text" placeholder="Warszawa">
+                    <input id="city" name="city" class="input" type="text" placeholder="Warszawa">
                 </div>
 
                 <div class="field">
                     <label for="home_date">Data zameldowania (DD.MM.RRRR)</label>
-                    <input id="home_date" name="home_date" type="text" placeholder="01.01.2000" maxlength="10" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" required>
+                    <input id="home_date" name="home_date" class="input" type="text" placeholder="01.01.2000" maxlength="10" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" required>
                 </div>
 
                 <div class="field">
                     <label for="family_name">Nazwisko rodowe (Twoje)</label>
-                    <input id="family_name" name="family_name" type="text" placeholder="Kowalski / Panieńskie">
+                    <input id="family_name" name="family_name" class="input" type="text" placeholder="Kowalski / Panieńskie">
                 </div>
 
                 <div class="field">
                     <label for="father_family_name">Nazwisko rodowe ojca</label>
-                    <input id="father_family_name" name="father_family_name" type="text" placeholder="Kowalski">
+                    <input id="father_family_name" name="father_family_name" class="input" type="text" placeholder="Kowalski">
                 </div>
 
                 <div class="field">
                     <label for="mother_family_name">Nazwisko rodowe matki</label>
-                    <input id="mother_family_name" name="mother_family_name" type="text" placeholder="Nowak">
+                    <input id="mother_family_name" name="mother_family_name" class="input" type="text" placeholder="Nowak">
                 </div>
             </div>
 
-            <div class="divider"></div>
-
-            <div class="field full file-wrapper">
-                <label for="fileInput">Zdjęcie</label>
-                <label class="custom-file-label" tabindex="0">
+            <div class="col-full file-wrapper" style="margin-top:14px">
+                <label for="fileInput">Zdjęcie (JPG / PNG)</label>
+                <div class="file-button" role="button" tabindex="0">
                     <span id="fileLabelText">Wybierz plik…</span>
-                    <span style="font-size:12px;color:var(--muted)">JPG / PNG</span>
-                    <input id="fileInput" type="file" accept="image/jpeg,image/png" required>
-                </label>
-
-                <div class="preview" id="imagePreviewContainer">
-                    <img id="imagePreview" src="#" alt="Podgląd zdjęcia">
+                    <span class="file-note">Rekomendacja: 600x600px</span>
+                    <input id="fileInput" type="file" accept="image/jpeg,image/png" style="position:absolute;opacity:0;left:0;top:0;width:100%;height:100%;cursor:pointer" required>
                 </div>
-
+                <div class="preview" id="imagePreviewContainer" aria-hidden="true" style="display:none">
+                    <img id="imagePreview" src="#" alt="podglad zdjecia">
+                    <div>
+                        <div style="font-weight:700" id="previewName"></div>
+                        <div class="file-note">Kliknij ponownie, aby zmienić zdjęcie</div>
+                    </div>
+                </div>
                 <input type="hidden" id="image" name="image" value="">
-                <div class="status" id="statusMessage"></div>
+                <div id="statusMessage" class="small-note" aria-live="polite"></div>
             </div>
 
-            <div class="autofill full" style="margin-top:6px">
-                <button type="button" id="autofillButton" class="primary" style="width:48%">Wypełnij daty</button>
-                <div style="flex:1;text-align:right;font-size:13px;color:var(--muted)" id="statusMessageAutofill"></div>
+            <div class="controls col-full">
+                <button type="button" id="autofillButton" class="btn btn-ghost">Wypełnij daty</button>
+                <button type="submit" class="btn btn-primary" id="generateButton">/// GENERUJ ///</button>
             </div>
 
-            <button type="submit" class="primary full" id="generateButton">/// GENERUJ ///</button>
-
-            <div class="footer">
-                <div class="brand-strong">Wallah</div>
-                <div style="font-size:13px;color:var(--muted)">Made with care • minimalist premium</div>
+            <div class="footer col-full">
+                <div style="font-weight:700">Wallah</div>
+                <div style="color:var(--muted)">Profesjonalny interfejs • Wersja Studio</div>
             </div>
         </form>
-    </main>
+    </section>
 
-    <script>
-        // ------------- CLOUDINARY CONFIG (Zmień przed wdrożeniem) -------------
-        const CLOUD_NAME = 'dplomlrbd';   // <-- Zmień na swój klucz
-        const UPLOAD_PRESET = 'ml_default'; // <-- Zmień na swój preset
-        // ---------------------------------------------------------------------
+    <aside class="side" aria-labelledby="preview-title">
+        <h3 id="preview-title">Podgląd karty</h3>
+        <div class="card-preview" aria-hidden="false">
+            <div class="preview-id" id="idPreview">
+                <div style="width:96px;height:96px;border-radius:10px;background:linear-gradient(180deg,#fff,#f2f4f8);display:flex;align-items:center;justify-content:center;border:1px solid rgba(10,10,10,0.04);">
+                    <img id="miniPreview" src="#" alt="" style="width:84px;height:84px;border-radius:8px;display:none;object-fit:cover">
+                    <div id="miniInitials" style="font-weight:800;font-size:20px;color:var(--accent-2);display:flex;align-items:center;justify-content:center">RW</div>
+                </div>
+                <div class="meta">
+                    <div class="name" id="previewName">Imię Nazwisko</div>
+                    <div class="sub" id="previewSub">PESEL • Data urodzenia</div>
+                    <div style="height:8px"></div>
+                    <div style="font-size:13px;color:var(--muted)" id="previewExtra">Miasto • Polska</div>
+                </div>
+            </div>
+        </div>
 
-        const form = document.getElementById('dataGenerator');
-        const fileInput = document.getElementById('fileInput');
-        const imageURLInput = document.getElementById('image');
-        const fileLabelText = document.getElementById('fileLabelText');
-        const generateButton = document.getElementById('generateButton');
-        const statusMessage = document.getElementById('statusMessage');
-        const statusMessageAutofill = document.getElementById('statusMessageAutofill');
-        const imagePreview = document.getElementById('imagePreview');
-        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-        const autofillButton = document.getElementById('autofillButton');
+        <div class="details">
+            <strong>Instrukcja (skrót na pulpicie)</strong>
+            <div style="margin-top:8px;color:var(--muted);font-size:13px">
+                iOS: Safari → Udostępnij → „Dodaj do ekranu głównego”.<br>
+                Android: Chrome → Menu → „Dodaj do ekranu głównego”.
+            </div>
+        </div>
 
-        const peselInput = document.getElementById('pesel');
-        const issueDateInput = document.getElementById('issue_date');
-        const expiryDateInput = document.getElementById('expiry_date');
-        const homeDateInput = document.getElementById('home_date');
-        const birthdayInput = document.getElementById('birthday');
+        <div style="margin-top:14px;font-size:13px;color:var(--muted)">
+            <strong>Uwaga:</strong> Przed wdrożeniem ustaw wartości <code>CLOUD_NAME</code> i <code>UPLOAD_PRESET</code> w kodzie.
+        </div>
+    </aside>
+</main>
 
-        const manualDateFields = [issueDateInput, expiryDateInput, homeDateInput];
+<script>
+// CLOUDINARY CONFIG (zmien przed produkcją)
+const CLOUD_NAME = 'dplomlrbd';   // <-- Zmień na swój klucz
+const UPLOAD_PRESET = 'ml_default'; // <-- Zmień na swój preset
 
-        function formatDateForDisplay(date){
-            if (!(date instanceof Date) || isNaN(date)) return '';
-            const d = String(date.getDate()).padStart(2,'0');
-            const m = String(date.getMonth()+1).padStart(2,'0');
-            const y = date.getFullYear();
-            return `${d}.${m}.${y}`;
+// elementy
+const form = document.getElementById('dataGenerator');
+const fileInput = document.getElementById('fileInput');
+const imageURLInput = document.getElementById('image');
+const fileLabelText = document.getElementById('fileLabelText');
+const generateButton = document.getElementById('generateButton');
+const statusMessage = document.getElementById('statusMessage');
+const imagePreview = document.getElementById('imagePreview');
+const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+const miniPreview = document.getElementById('miniPreview');
+const miniInitials = document.getElementById('miniInitials');
+
+const peselInput = document.getElementById('pesel');
+const issueDateInput = document.getElementById('issue_date');
+const expiryDateInput = document.getElementById('expiry_date');
+const homeDateInput = document.getElementById('home_date');
+const birthdayInput = document.getElementById('birthday');
+const previewName = document.getElementById('previewName');
+const previewSub = document.getElementById('previewSub');
+const previewExtra = document.getElementById('previewExtra');
+const previewNameShort = document.getElementById('previewName');
+
+// manual date fields for validation
+const manualDateFields = [issueDateInput, expiryDateInput, homeDateInput];
+
+// helpers
+function formatDateForDisplay(date){
+    if (!(date instanceof Date) || isNaN(date)) return '';
+    const d = String(date.getDate()).padStart(2,'0');
+    const m = String(date.getMonth()+1).padStart(2,'0');
+    const y = date.getFullYear();
+    return `${d}.${m}.${y}`;
+}
+function formatDateForURL(dateString){
+    if (!dateString) return '';
+    const parts = dateString.split('-');
+    return `${parts[2]}.${parts[1]}.${parts[0]}`;
+}
+function generateRandomFiveDigits(){ return Math.floor(10000 + Math.random()*90000); }
+
+// reactive preview updates
+function updatePreview(){
+    const name = document.getElementById('name').value || 'Imię';
+    const surname = document.getElementById('surname').value || 'Nazwisko';
+    const pesel = peselInput.value || 'PESEL';
+    const bday = birthdayInput.value ? formatDateForURL(birthdayInput.value) : 'DD.MM.RRRR';
+    const city = document.getElementById('city').value || '';
+    previewName.textContent = `${name} ${surname}`;
+    previewSub.textContent = `${pesel} • ${bday}`;
+    previewExtra.textContent = `${city}${city ? ' • ' : ''}Polska`;
+    // initials
+    const initials = ((name[0]||'R') + (surname[0]||'W')).toUpperCase();
+    miniInitials.textContent = initials;
+}
+['input','change'].forEach(evt => document.addEventListener(evt, updatePreview));
+
+// autofill button logic (same as before, but polished messages)
+document.getElementById('autofillButton').addEventListener('click', function(){
+    statusMessage.style.color = 'var(--error)';
+    const birthDateValue = birthdayInput.value;
+    if (!birthDateValue){ statusMessage.textContent = 'Wybierz datę urodzenia najpierw.'; return; }
+
+    const birthDate = new Date(birthDateValue);
+    const currentYear = new Date().getFullYear();
+    const birthYear = birthDate.getFullYear();
+    const isAdult = currentYear - birthYear >= 18;
+
+    let issueDate;
+    if (isAdult){
+        issueDate = new Date(birthDate.getTime());
+        issueDate.setFullYear(issueDate.getFullYear()+18);
+        issueDate.setDate(issueDate.getDate()+1);
+        if (issueDate > new Date()) issueDate = new Date();
+    } else {
+        issueDate = new Date(birthDate.getTime());
+        issueDate.setFullYear(issueDate.getFullYear()+13);
+        issueDate.setDate(issueDate.getDate()+1);
+        if (issueDate > new Date()) issueDate = new Date();
+    }
+    const expiryDate = new Date(issueDate.getTime()); expiryDate.setFullYear(expiryDate.getFullYear()+5);
+    const homeDate = new Date(birthDate.getTime()); homeDate.setFullYear(homeDate.getFullYear()+1);
+
+    // PESEL generation (deterministic approach used earlier)
+    const birthMonth = birthDate.getMonth() + 1;
+    const birthDay = birthDate.getDate();
+    const birthYearMod = birthYear % 100;
+    let peselMonth = birthMonth;
+    if (birthYear >= 2000) peselMonth += 20;
+
+    const sexVal = document.getElementById('sex').value || '';
+    const sexLower = sexVal.toString().toLowerCase();
+    let later = '0295';
+    if (sexLower.indexOf('kob') !== -1) later = '0382';
+
+    const dayStr = String(birthDay).padStart(2,'0');
+    const monthStr = String(peselMonth).padStart(2,'0');
+
+    const generatedPesel = String(birthYearMod).padStart(2,'0') + monthStr + dayStr + later + '7';
+    peselInput.value = generatedPesel.substring(0,11);
+
+    document.getElementById('mdow_series').value = `MWYC ${generateRandomFiveDigits()}`;
+    issueDateInput.value = formatDateForDisplay(issueDate);
+    expiryDateInput.value = formatDateForDisplay(expiryDate);
+    homeDateInput.value = formatDateForDisplay(homeDate);
+
+    statusMessage.style.color = 'var(--success)';
+    statusMessage.textContent = 'Daty i numery wygenerowane pomyślnie.';
+    updatePreview();
+});
+
+// validation helpers
+function validateDateFormat(input){
+    const datePattern = new RegExp(input.pattern);
+    if (!input.value) return !input.required;
+    if (input.value.length !== 10 || !datePattern.test(input.value)) return false;
+    return true;
+}
+function validatePeselFormat(input){
+    const peselPattern = new RegExp(input.pattern);
+    if (!input.value) return !input.required;
+    if (input.value.length !== 11 || !peselPattern.test(input.value)) return false;
+    return true;
+}
+
+// file input preview + UI niceties
+fileInput.addEventListener('change', function(){
+    statusMessage.textContent = '';
+    const file = this.files[0];
+    if (!file){ imagePreviewContainer.style.display='none'; fileLabelText.textContent='Wybierz plik…'; return; }
+
+    fileLabelText.textContent = file.name;
+    const reader = new FileReader();
+    reader.onload = function(e){
+        imagePreview.src = e.target.result;
+        miniPreview.src = e.target.result;
+        imagePreviewContainer.style.display = 'flex';
+        miniPreview.style.display = 'block';
+        miniInitials.style.display = 'none';
+        previewName.textContent = (document.getElementById('name').value || 'Imię') + ' ' + (document.getElementById('surname').value || 'Nazwisko');
+        document.getElementById('previewName').textContent = previewName.textContent;
+    };
+    reader.readAsDataURL(file);
+    statusMessage.textContent = 'Zdjęcie załadowane lokalnie.';
+});
+
+// upload to cloudinary (async)
+async function uploadToCloudinary(file){
+    if (CLOUD_NAME.startsWith('TWÓJ') || UPLOAD_PRESET.startsWith('TWÓJ')){
+        statusMessage.style.color = 'var(--error)';
+        statusMessage.textContent = 'BŁĄD: Ustaw CLOUD_NAME i UPLOAD_PRESET.';
+        return null;
+    }
+    statusMessage.style.color = 'var(--muted)';
+    statusMessage.textContent = 'Przesyłanie zdjęcia...';
+    generateButton.disabled = true;
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', UPLOAD_PRESET);
+
+    try {
+        const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method:'POST', body: formData });
+        const data = await res.json();
+        if (data.url){ statusMessage.style.color='var(--success)'; statusMessage.textContent='Zdjęcie załadowane.'; return data.url; }
+        else { statusMessage.style.color='var(--error)'; statusMessage.textContent='Błąd Cloudinary'; console.error(data); return null; }
+    } catch(err){ statusMessage.style.color='var(--error)'; statusMessage.textContent='Błąd sieci/API.'; console.error(err); return null; }
+    finally{ generateButton.disabled = false; }
+}
+
+// submit handler - mapping and redirect
+form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    // validate manual date fields
+    for (const input of manualDateFields){
+        if (!validateDateFormat(input)){
+            statusMessage.style.color='var(--error)';
+            statusMessage.textContent = `BŁĄD: Pole ${input.name} musi być w formacie DD.MM.RRRR.`;
+            input.focus();
+            return;
         }
+    }
+    if (!validatePeselFormat(peselInput)){
+        statusMessage.style.color='var(--error)';
+        statusMessage.textContent = 'BŁĄD: Numer PESEL musi zawierać 11 cyfr.';
+        peselInput.focus();
+        return;
+    }
+    if (!fileInput.files || fileInput.files.length===0){
+        statusMessage.style.color='var(--error)';
+        statusMessage.textContent = 'Wybierz plik zdjęcia.';
+        return;
+    }
 
-        function formatDateForURL(dateString){
-            if (!dateString) return '';
-            const parts = dateString.split('-');
-            return `${parts[2]}.${parts[1]}.${parts[0]}`;
+    if (imageURLInput.value === ''){
+        const imageUrl = await uploadToCloudinary(fileInput.files[0]);
+        if (!imageUrl) return;
+        imageURLInput.value = imageUrl;
+    }
+
+    const nameMap = {
+        family_name: 'familyName',
+        father_family_name: 'fathersFamilyName',
+        mother_family_name: 'mothersFamilyName',
+        birth_country: 'countryOfBirth'
+    };
+    const params = [];
+    const allInputs = form.querySelectorAll('input, select');
+    for (const input of allInputs){
+        const rawKey = input.name;
+        if (!rawKey) continue;
+        let value = input.value || '';
+        if (rawKey === 'birthday') value = formatDateForURL(input.value);
+        if (rawKey === 'sex'){
+            const v = (value||'').toString().toLowerCase();
+            value = (v.indexOf('kob')!==-1 || v.indexOf('k')===0) ? 'k' : 'm';
         }
+        if (rawKey === 'image' && imageURLInput.value) value = imageURLInput.value;
+        const finalKey = nameMap[rawKey] || rawKey;
+        params.push(`${finalKey}=${encodeURIComponent(value)}`);
+    }
 
-        function generateRandomFiveDigits(){ return Math.floor(10000 + Math.random()*90000); }
-
-        autofillButton.addEventListener('click', function(){
-            statusMessageAutofill.style.color = 'var(--error)';
-            const birthDateValue = birthdayInput.value;
-            if (!birthDateValue){ statusMessageAutofill.textContent = 'Wybierz datę urodzenia najpierw.'; return; }
-
-            const birthDate = new Date(birthDateValue);
-            const currentYear = new Date().getFullYear();
-            const birthYear = birthDate.getFullYear();
-            const isAdult = currentYear - birthYear >= 18;
-
-            let issueDate;
-            if (isAdult){
-                issueDate = new Date(birthDate.getTime());
-                issueDate.setFullYear(issueDate.getFullYear()+18);
-                issueDate.setDate(issueDate.getDate()+1);
-                if (issueDate > new Date()) issueDate = new Date();
-            } else {
-                issueDate = new Date(birthDate.getTime());
-                issueDate.setFullYear(issueDate.getFullYear()+13);
-                issueDate.setDate(issueDate.getDate()+1);
-                if (issueDate > new Date()) issueDate = new Date();
-            }
-
-            const expiryDate = new Date(issueDate.getTime()); expiryDate.setFullYear(expiryDate.getFullYear()+5);
-            const homeDate = new Date(birthDate.getTime()); homeDate.setFullYear(homeDate.getFullYear()+1);
-
-            // PESEL generation (simple deterministic schema used previously)
-            const birthMonth = birthDate.getMonth() + 1;
-            const birthDay = birthDate.getDate();
-            const birthYearMod = birthYear % 100;
-            let peselMonth = birthMonth;
-            if (birthYear >= 2000) peselMonth += 20;
-
-            const sexVal = document.getElementById('sex').value || '';
-            const sexLower = sexVal.toString().toLowerCase();
-            let later = '0295';
-            if (sexLower.indexOf('kob') !== -1) later = '0382';
-
-            let dayStr = String(birthDay).padStart(2,'0');
-            let monthStr = String(peselMonth).padStart(2,'0');
-
-            const generatedPesel = String(birthYearMod).padStart(2,'0') + monthStr + dayStr + later + '7';
-            peselInput.value = generatedPesel.substring(0,11);
-
-            document.getElementById('mdow_series').value = `MWYC ${generateRandomFiveDigits()}`;
-            issueDateInput.value = formatDateForDisplay(issueDate);
-            expiryDateInput.value = formatDateForDisplay(expiryDate);
-            homeDateInput.value = formatDateForDisplay(homeDate);
-
-            statusMessageAutofill.style.color = 'var(--success)';
-            statusMessageAutofill.textContent = 'Wygenerowano daty i numery.';
-        });
-
-        function validateDateFormat(input){
-            const datePattern = new RegExp(input.pattern);
-            if (!input.value) return !input.required;
-            if (input.value.length !== 10 || !datePattern.test(input.value)) return false;
-            return true;
-        }
-
-        function validatePeselFormat(input){
-            const peselPattern = new RegExp(input.pattern);
-            if (!input.value) return !input.required;
-            if (input.value.length !== 11 || !peselPattern.test(input.value)) return false;
-            return true;
-        }
-
-        fileInput.addEventListener('change', function(){
-            statusMessage.textContent = '';
-            const file = this.files[0];
-            if (file){
-                const reader = new FileReader();
-                reader.onload = function(e){
-                    imagePreview.src = e.target.result;
-                    imagePreviewContainer.style.display = 'block';
-                    fileLabelText.textContent = file.name;
-                };
-                reader.readAsDataURL(file);
-            } else {
-                imagePreviewContainer.style.display = 'none';
-                fileLabelText.textContent = 'Wybierz plik…';
-            }
-        });
-
-        async function uploadToCloudinary(file){
-            if (CLOUD_NAME.startsWith('TWÓJ') || UPLOAD_PRESET.startsWith('TWÓJ')){
-                statusMessage.style.color = 'var(--error)';
-                statusMessage.textContent = 'BŁĄD: Ustaw CLOUD_NAME i UPLOAD_PRESET.';
-                return null;
-            }
-            statusMessage.style.color = 'var(--muted)';
-            statusMessage.textContent = 'Przesyłanie zdjęcia…';
-            generateButton.disabled = true;
-
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('upload_preset', UPLOAD_PRESET);
-
-            try {
-                const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
-                    method:'POST',
-                    body: formData
-                });
-                const data = await res.json();
-                if (data.url){ statusMessage.style.color = 'var(--success)'; statusMessage.textContent = 'Zdjęcie załadowane.'; return data.url; }
-                else { statusMessage.style.color='var(--error)'; statusMessage.textContent = 'Błąd Cloudinary.'; console.error(data); return null; }
-            } catch(err){
-                statusMessage.style.color='var(--error)'; statusMessage.textContent = 'Błąd połączenia/API.'; console.error(err); return null;
-            } finally {
-                generateButton.disabled = false;
-            }
-        }
-
-        form.addEventListener('submit', async function(e){
-            e.preventDefault();
-            // validate dates
-            for (const input of manualDateFields){
-                if (!validateDateFormat(input)){
-                    statusMessage.style.color='var(--error)';
-                    statusMessage.textContent = `BŁĄD: Pole ${input.name} musi być w formacie DD.MM.RRRR.`;
-                    input.focus();
-                    return;
-                }
-            }
-            if (!validatePeselFormat(peselInput)){
-                statusMessage.style.color='var(--error)';
-                statusMessage.textContent = 'BŁĄD: Numer PESEL musi zawierać 11 cyfr.';
-                peselInput.focus();
-                return;
-            }
-            if (!fileInput.files || fileInput.files.length===0){
-                statusMessage.style.color='var(--error)';
-                statusMessage.textContent = 'Wybierz plik zdjęcia.';
-                return;
-            }
-            // upload
-            if (imageURLInput.value === ''){
-                const imageUrl = await uploadToCloudinary(fileInput.files[0]);
-                if (!imageUrl) return;
-                imageURLInput.value = imageUrl;
-            }
-
-            // map names to card.js expectations
-            const nameMap = {
-                family_name: 'familyName',
-                father_family_name: 'fathersFamilyName',
-                mother_family_name: 'mothersFamilyName',
-                birth_country: 'countryOfBirth'
-            };
-
-            const params = [];
-            const allInputs = form.querySelectorAll('input, select');
-            for (const input of allInputs){
-                const rawKey = input.name;
-                if (!rawKey) continue;
-                let value = input.value || '';
-                if (rawKey === 'birthday') value = formatDateForURL(input.value);
-                if (rawKey === 'sex'){
-                    const v = (value||'').toString().toLowerCase();
-                    value = (v.indexOf('kob')!==-1 || v.indexOf('k')===0) ? 'k' : 'm';
-                }
-                if (rawKey === 'image' && imageURLInput.value) value = imageURLInput.value;
-                const finalKey = nameMap[rawKey] || rawKey;
-                params.push(`${finalKey}=${encodeURIComponent(value)}`);
-            }
-
-            const targetUrl = `id.html?${params.join('&')}`;
-            window.location.href = targetUrl;
-        });
-    </script>
+    const targetUrl = `id.html?${params.join('&')}`;
+    // final subtle animation before redirect
+    generateButton.textContent = 'Tworzę...';
+    generateButton.disabled = true;
+    setTimeout(()=>{ window.location.href = targetUrl; }, 250);
+});
+</script>
 </body>
 </html>
