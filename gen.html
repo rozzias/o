@@ -2,542 +2,611 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> rowatel </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>mObywatel Generator | Pro v4.0</title>
+    
     <script>
-    if (localStorage.getItem("license_valid") !== "true") {
-        window.location.href = "license.html";
-    }
-</script>
-    <style>
-        /* Czcionka dla czystości i nowoczesności */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        // Sprawdzenie licencji (zachowane z oryginału)
+        if (localStorage.getItem("license_valid") !== "true") {
+            window.location.href = "license.html";
+        }
+    </script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
         :root {
-            --bg-dark: #09020e; 
-            --bg-mid: #1c0a27; 
-            --text-light: #eeeeee;
-            --text-subtle: #777777;
-            --glass-fill: rgba(255, 255, 255, 0.05); 
-            --border-clear: rgba(150, 0, 255, 0.3); 
-            --accent-purple: #9c27b0; 
-            --accent-glow: rgba(150, 0, 255, 0.6);
-            --shadow-button: rgba(150, 0, 255, 0.4);
-            --error-red: #ff3333; 
-            --success-green: #33ff33; 
-            --accent-blue: #3366ff; /* Akcent dla przycisku generowania dat */
+            /* Nowoczesna paleta kolorów - Deep Void */
+            --bg-core: #050505;
+            --bg-surface: #0f0f11;
+            --bg-surface-hover: #18181b;
+            
+            --primary: #6d28d9; /* Deep Purple */
+            --primary-glow: #8b5cf6;
+            --accent: #06b6d4; /* Cyan accent for actions */
+            
+            --text-main: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #52525b;
+            
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-focus: rgba(139, 92, 246, 0.5);
+            
+            --status-error: #ef4444;
+            --status-success: #10b981;
+            
+            --radius-md: 12px;
+            --radius-lg: 24px;
+        }
+
+        * {
+            box-sizing: border-box;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            background-color: var(--bg-core);
+            color: var(--text-main);
             margin: 0;
-            padding: 15px;
-            box-sizing: border-box;
-            background-image: radial-gradient(circle at top left, var(--bg-mid) 5%, transparent 40%),
-                                 radial-gradient(circle at bottom right, rgba(150, 0, 255, 0.1) 0%, transparent 45%);
-            margin-top: 5vh; 
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            /* Subtelne animowane tło */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(109, 40, 217, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.1), transparent 25%);
+            background-attachment: fixed;
         }
 
-        .container {
-            /* Głęboki Frosted Glass Effect */
-            background: var(--glass-fill);
-            backdrop-filter: blur(20px) brightness(1.1);
-            -webkit-backdrop-filter: blur(20px) brightness(1.1);
-            
-            padding: 30px; 
-            border-radius: 28px; 
-            border: 1px solid var(--border-clear);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 20px var(--accent-glow) inset;
+        /* --- GLÓWNY KONTENER --- */
+        .app-container {
             width: 100%;
-            max-width: 350px; 
-            margin-bottom: 20px; 
+            max-width: 680px; /* Szerszy na desktopie dla układu Grid */
+            margin: 40px 20px;
+            perspective: 1000px;
+            animation: fadeIn Up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
+        /* Karta formularza */
+        .glass-card {
+            background: rgba(15, 15, 17, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Dekoracyjny pasek na górze */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            opacity: 0.7;
+        }
+
+        /* --- TYPOGRAFIA --- */
         h1 {
-            color: var(--text-light);
-            text-align: center;
-            margin-bottom: 30px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
             font-weight: 700;
-            letter-spacing: 1.5px;
-            font-size: 1.8rem;
-            text-shadow: 0 0 10px var(--accent-purple);
-            border-bottom: 1px solid var(--border-clear);
-            padding-bottom: 18px;
+            text-align: center;
+            margin: 0 0 10px 0;
+            background: linear-gradient(to right, #fff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 35px;
+            font-weight: 400;
+        }
+
+        /* --- INSTRUKCJA (ACCORDION) --- */
+        details.instruction-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-subtle);
+            margin-bottom: 30px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        details.instruction-box summary {
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        details.instruction-box summary:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        details.instruction-box summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details.instruction-box summary::after {
+            content: '+';
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            transition: transform 0.3s;
+        }
+
+        details.instruction-box[open] summary::after {
+            transform: rotate(45deg);
+        }
+
+        .instruction-content {
+            padding: 0 20px 20px 20px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 10px;
         }
         
-        .form-group {
-            margin-bottom: 20px;
+        .instruction-content strong { color: var(--accent); }
+
+        /* --- UKŁAD FORMULARZA (GRID SYSTEM) --- */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        /* Na desktopie dwie kolumny */
+        @media (min-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .full-width {
+                grid-column: span 2;
+            }
+        }
+
+        /* --- POLA INPUT --- */
+        .input-group {
             position: relative;
-            transition: transform 0.2s ease-out;
+            display: flex;
+            flex-direction: column;
         }
 
         label {
-            display: block;
-            margin-bottom: 8px;
+            font-size: 0.75rem;
             font-weight: 600;
-            color: var(--text-subtle);
-            font-size: 0.85rem;
-            transition: color 0.3s;
-        }
-
-        /* AKCENT MROCZNEGO GLOW PRZY FOCUSIE */
-        .form-group:focus-within {
-            transform: translateY(-2px);
-            background-color: rgba(150, 0, 255, 0.05);
-            border-radius: 12px;
-        }
-        
-        .form-group:focus-within label {
-            color: var(--accent-purple);
-            text-shadow: 0 0 8px var(--accent-purple);
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
         input[type="text"], input[type="date"], select {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s ease;
             width: 100%;
-            padding: 16px 14px;
-            border: 1px solid var(--border-clear);
-            border-radius: 12px;
-            box-sizing: border-box;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: var(--text-light);
-            transition: border-color 0.3s, box-shadow 0.3s;
-            font-size: 1rem;
-            -webkit-appearance: none;
-            appearance: none; 
         }
-        
-        input[type="text"]:focus, input[type="date"]:focus, select:focus {
-            border-color: var(--accent-purple);
-            outline: none;
-            box-shadow: 0 0 0 4px var(--accent-glow);
-            background-color: var(--bg-mid);
+
+        input:focus, select:focus {
+            border-color: var(--primary-glow);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+            background: var(--bg-surface-hover);
         }
-        
-        ::placeholder {
-            color: var(--text-subtle);
-            opacity: 0.8; 
+
+        input::placeholder {
+            color: var(--text-muted);
         }
-        
-        /* Dostosowanie pola daty dla lepszej widoczności w ciemnym motywie */
+
+        /* Stylowanie kalendarza */
         input[type="date"]::-webkit-calendar-picker-indicator {
-            filter: invert(1); /* Odwraca kolor ikonki kalendarza na biały */
+            filter: invert(1) opacity(0.6);
             cursor: pointer;
         }
+
+        /* --- SEKCJE / PODZIAŁY --- */
+        .section-divider {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            margin: 20px 0 10px 0;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+        }
         
-        /* --- STYL DLA BLOKU AUTOFILL --- */
-        .autofill-block {
-            margin-top: -10px; 
-            margin-bottom: 20px; 
-            padding: 15px;
-            border-radius: 12px;
-            background-color: rgba(51, 102, 255, 0.05);
-            border: 1px solid rgba(51, 102, 255, 0.2);
-            box-shadow: 0 0 10px rgba(51, 102, 255, 0.1);
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-subtle);
+            margin-left: 15px;
+        }
+
+        /* --- AUTOFILL SECTION --- */
+        .autofill-container {
+            grid-column: 1 / -1;
+            background: rgba(6, 182, 212, 0.05);
+            border: 1px dashed rgba(6, 182, 212, 0.3);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
         }
 
         #autofillButton {
-            width: 100%;
-            padding: 14px 20px;
-            border: none;
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 10px 20px;
             border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.95rem;
             font-weight: 600;
-            transition: all 0.2s ease;
-            margin-top: 0;
-            
-            background-color: var(--accent-blue);
-            color: var(--text-light);
-            box-shadow: 0 2px 10px rgba(51, 102, 255, 0.4);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
         }
 
-        #autofillButton:hover:not([disabled]) {
-            transform: translateY(-1px);
-            filter: brightness(1.1);
-            box-shadow: 0 4px 15px rgba(51, 102, 255, 0.6);
+        #autofillButton:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        #statusMessageAutofill {
+            font-size: 0.8rem;
+            margin-top: 10px;
+            min-height: 1.2em;
+        }
+
+        /* --- FILE UPLOAD --- */
+        .file-upload-area {
+            grid-column: 1 / -1;
+            position: relative;
+        }
+
+        .custom-file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            border: 2px dashed var(--border-subtle);
+            border-radius: var(--radius-md);
+            background: rgba(255,255,255,0.02);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .custom-file-upload:hover {
+            border-color: var(--primary);
+            background: rgba(109, 40, 217, 0.05);
+            color: var(--primary-glow);
+        }
+
+        .upload-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+
+        #imagePreviewContainer {
+            display: none; /* Domyślnie ukryty, JS go pokaże */
+            margin-top: 15px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
         }
         
-        #statusMessageAutofill {
-            text-align: center;
-            margin-top: 10px;
-            min-height: 18px; 
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--text-subtle);
+        #imagePreviewContainer.active {
+            display: block;
         }
-        /* --- KONIEC STYLU DLA BLOKU AUTOFILL --- */
 
-
-        /* Styl dla głównego przycisku generowania */
-        #generateButton {
+        #imagePreview {
             width: 100%;
-            padding: 18px 20px;
+            height: auto;
+            max-height: 300px;
+            object-fit: contain;
+            display: block;
+            background: #000;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        /* --- STATUS MESSAGES --- */
+        #statusMessage {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+            min-height: 20px;
+            margin-top: 10px;
+        }
+
+        /* --- BUTTON GENERUJ --- */
+        #generateButton {
+            grid-column: 1 / -1;
+            margin-top: 20px;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary) 0%, #4c1d95 100%);
             border: none;
-            border-radius: 12px;
-            cursor: pointer;
+            border-radius: var(--radius-md);
+            color: white;
             font-size: 1.1rem;
             font-weight: 700;
-            transition: all 0.2s ease;
-            margin-top: 30px;
-            margin-bottom: 25px; 
-            
-            background-color: var(--accent-purple);
-            color: var(--text-light);
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-            box-shadow: 0 4px 20px var(--shadow-button);
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 10px 20px -5px rgba(109, 40, 217, 0.4);
+            position: relative;
+            overflow: hidden;
         }
 
-        button:disabled {
-            opacity: 0.5;
+        #generateButton::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        #generateButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -5px rgba(109, 40, 217, 0.5);
+        }
+        
+        #generateButton:hover::after {
+            opacity: 1;
+        }
+
+        #generateButton:disabled {
+            background: var(--bg-surface-hover);
+            color: var(--text-muted);
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
-        
-        .divider {
-            border: 0;
-            height: 1px;
-            background-color: var(--border-clear);
-            margin: 30px 0;
-        }
-        
+
+        /* --- FOOTER --- */
         .footer-dev {
             text-align: center;
-            padding-top: 5px; 
-            font-size: 0.75rem;
-            color: var(--text-subtle);
-            letter-spacing: 0.5px;
-            position: relative; 
-            width: 100%;
+            margin-top: 40px;
+            color: var(--text-muted);
+            font-size: 0.7rem;
         }
         
         .footer-dev span {
-            display: block;
-            color: var(--text-light); 
-            font-weight: 800; 
-            font-size: 1.5rem; 
-            letter-spacing: 2px;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 
-                         0 0 20px var(--accent-purple); 
-            margin-top: 5px;
-        }
-
-        /* Sekcja wiadomości/statusu (dla przesłania zdjęcia) */
-        #statusMessage {
-            text-align: center;
-            margin-top: -10px;
-            margin-bottom: 20px;
-            min-height: 18px; 
-            font-size: 0.85rem;
+            color: var(--text-secondary);
             font-weight: 600;
         }
-        
-        /* STYLA DLA WGRYWANIA PLIKU */
-        .file-upload-wrapper { position: relative; display: block; }
-        #fileInput { opacity: 0; position: absolute; z-index: -1; width: 0.1px; height: 0.1px; overflow: hidden; }
-        .custom-file-upload { 
-            display: block; width: 100%; padding: 16px 14px; border: 1px solid var(--border-clear); border-radius: 12px; box-sizing: border-box; background-color: rgba(0, 0, 0, 0.5); color: var(--text-subtle); cursor: pointer; text-align: center; transition: all 0.3s; font-size: 1rem; font-weight: 500;
-        }
-        .custom-file-upload:hover { border-color: var(--accent-purple); box-shadow: 0 0 0 4px rgba(150, 0, 255, 0.2); }
-        .image-preview-container { width: 100%; height: 0; opacity: 0; border: 1px dashed transparent; border-radius: 12px; display: flex; justify-content: center; align-items: center; overflow: hidden; margin-top: 0; cursor: pointer; transition: all 0.3s ease-in-out; }
-        .image-preview-container.active { height: 120px; opacity: 1; margin-top: 5px; border: 1px dashed var(--border-clear); }
-        #imagePreview { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; display: block; }
-        #imagePreviewContainer.active:hover { border-color: var(--accent-purple); }
 
-        /* NOWY STYL DLA PRZYCISKU INSTRUKCJA (PODŚWIETLANY) */
-        .instruction-details {
-            margin-bottom: 25px;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            /* Podstawowy cień dla zamkniętego elementu */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+        /* ANIMACJE */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .instruction-details summary {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            cursor: pointer;
-            font-size: 1.05rem;
-            font-weight: 700;
-            list-style: none; /* Ukrywa domyślny trójkąt */
-            
-            /* Tło i tekst */
-            background-color: var(--accent-purple);
-            color: var(--text-light);
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-            
-            /* Efekt podświetlenia - najważniejszy element wizualny */
-            transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
-            box-shadow: 0 0 15px var(--accent-glow); /* Początkowe delikatne glow */
+        /* Responsywność dla bardzo małych ekranów */
+        @media (max-width: 360px) {
+            .glass-card { padding: 25px 20px; }
         }
-
-        .instruction-details summary:hover {
-            /* Mocniejsze podświetlenie i delikatny ruch przy najechaniu */
-            transform: translateY(-2px);
-            box-shadow: 0 0 25px var(--accent-glow), 0 0 5px var(--text-light);
-        }
-        
-        /* Styl dla otwartej sekcji (po kliknięciu) */
-        .instruction-details[open] summary {
-            background-color: #6a1b9a; /* Lekko ciemniejszy akcent po otwarciu */
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-            box-shadow: 0 0 5px var(--accent-glow);
-        }
-
-        .instruction-details .icon {
-            font-size: 1.2rem;
-            margin-left: 10px;
-            transition: transform 0.2s ease;
-        }
-
-        /* Obrócenie ikonki po otwarciu */
-        .instruction-details[open] .icon {
-            transform: rotate(90deg);
-        }
-
-        .instruction-content {
-            padding: 20px;
-            background-color: var(--bg-mid); /* Tło dla instrukcji */
-            border: 1px solid var(--border-clear);
-            border-top: none;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
-        }
-
-        .instruction-content p, .instruction-content strong, .instruction-content li {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            line-height: 1.5;
-            margin-bottom: 10px;
-        }
-
-        .instruction-content ol {
-            margin-top: 5px;
-            margin-left: 20px;
-            padding-left: 0;
-        }
-
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1> rowatel v4.0</h1>
- <details class="instruction-details">
-            <summary>
-                INSTRUKCJA 
-                <span class="icon">▶</span>
-            </summary>
-            <div class="instruction-content">
-                <p>Aby aplikacja działała jak skrót na pulpicie telefonu (bez paska adresu przeglądarki), postępuj zgodnie z krokami.</p>
+    <div class="app-container">
+        <div class="glass-card">
+            <h1>ROWATEL v4.0</h1>
+            <div class="subtitle">System generowania tożsamości cyfrowej</div>
 
-                <strong style="counter-reset: step-counter;">System iOS (iPhone): 📱</strong>
-                <ol>
-                    <li>Upewnij się, że używasz przeglądarki Safari.</li>
-                    <li>Uzupełnij dane i kliknij GENERUJ.</li>
-                    <li>Na nowej stronie naciśnij ikonę Udostępnij.</li>
-                    <li>Wybierz opcję Do Ekranu głównego.</li>
-                </ol>
+            <details class="instruction-box">
+                <summary>Jak dodać do ekranu głównego?</summary>
+                <div class="instruction-content">
+                    <p>Aby aplikacja działała w trybie pełnoekranowym (jako "appka"):</p>
+                    <div style="margin-bottom: 10px;">
+                        <strong>iOS (iPhone):</strong><br>
+                        Safari &rarr; Udostępnij &rarr; Do ekranu głównego.
+                    </div>
+                    <div>
+                        <strong>Android:</strong><br>
+                        Chrome &rarr; Menu (3 kropki) &rarr; Dodaj do ekranu głównego.
+                    </div>
+                </div>
+            </details>
 
-                <strong style="counter-reset: step-counter;">System Android: 🤖</strong>
-                <ol>
-                    <li>Upewnij się, że używasz przeglądarki Chrome lub Google.</li>
-                    <li>Uzupełnij dane i kliknij GENERUJ.</li>
-                    <li>Na nowej stronie naciśnij ikonę Menu (3 kropki) w prawym górnym rogu.</li>
-                    <li>Wybierz opcję Dodaj do ekranu głównego.</li>
-                </ol>
-            </div>
-        </details>
-        <form id="dataGenerator">
-            <div class="form-group">
-                <label for="name">Imię:</label>
-                <input type="text" id="name" name="name" placeholder="Jan" required>
-            </div>
+            <form id="dataGenerator" class="form-grid">
+                
+                <div class="section-divider">DANE PODSTAWOWE</div>
 
-            <div class="form-group">
-                <label for="surname">Nazwisko:</label>
-                <input type="text" id="surname" name="surname" placeholder="Kowalski" required>
-            </div>
+                <div class="input-group">
+                    <label for="name">Imię</label>
+                    <input type="text" id="name" name="name" placeholder="Jan" required>
+                </div>
 
-            <div class="form-group">
-                <label for="sex">Płeć:</label>
-                <select id="sex" name="sex" required>
-                    <option value="MĘŻCZYZNA">MĘŻCZYZNA</option>
-                    <option value="KOBIETA">KOBIETA</option>
-                </select>
-            </div>
+                <div class="input-group">
+                    <label for="surname">Nazwisko</label>
+                    <input type="text" id="surname" name="surname" placeholder="Kowalski" required>
+                </div>
 
-            <div class="form-group">
-                <label for="birthday">Data Urodzenia (wybierz z kalendarza):</label>
-                <input 
-                    type="date" 
-                    id="birthday" 
-                    name="birthday" 
-                    required 
-                >
-            </div>
-            
-            <div class="autofill-block">
-                <button type="button" id="autofillButton">Wypełnij Daty Automatycznie</button>
-                <div id="statusMessageAutofill"></div> 
-            </div>
-            <div class="form-group">
-                <label for="pesel">Numer PESEL:</label>
-                <input 
-                    type="text" 
-                    id="pesel" 
-                    name="pesel" 
-                    placeholder="11-cyfrowy numer" 
-                    maxlength="11"
-                    pattern="[0-9]{11}" 
-                    required 
-                >
-            </div>
-            
-            <div class="form-group">
-                <label for="mdow_series">Seria i numer mDowodu:</label>
-                <input type="text" id="mdow_series" name="mdow_series" placeholder="MWYC XXXXX" required>
-            </div>
+                <div class="input-group">
+                    <label for="sex">Płeć</label>
+                    <select id="sex" name="sex" required>
+                        <option value="MĘŻCZYZNA">MĘŻCZYZNA</option>
+                        <option value="KOBIETA">KOBIETA</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label for="issue_date">Data wydania mDowodu (DD.MM.RRRR):</label>
-                <input 
-                    type="text" 
-                    id="issue_date" 
-                    name="issue_date" 
-                    placeholder="14.07.2023" 
-                    maxlength="10"
-                    pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" 
-                    required 
-                >
-            </div>
+                <div class="input-group">
+                    <label for="birthday">Data Urodzenia</label>
+                    <input type="date" id="birthday" name="birthday" required>
+                </div>
 
-            <div class="form-group">
-                <label for="expiry_date">Termin ważności mDowodu (DD.MM.RRRR):</label>
-                <input 
-                    type="text" 
-                    id="expiry_date" 
-                    name="expiry_date" 
-                    placeholder="14.07.2028" 
-                    maxlength="10"
-                    pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" 
-                    required 
-                >
-            </div>
+                <div class="autofill-container">
+                    <button type="button" id="autofillButton">
+                        ⚡ Wypełnij Daty i PESEL Automatycznie
+                    </button>
+                    <div id="statusMessageAutofill"></div>
+                </div>
 
-            <div class="form-group">
-                <label for="father_name">Imię ojca:</label>
-                <input type="text" id="father_name" name="father_name" placeholder="Maciej" required>
-            </div>
+                <div class="section-divider">DANE DOKUMENTU</div>
 
-            <div class="form-group">
-                <label for="mother_name">Imię matki:</label>
-                <input type="text" id="mother_name" name="mother_name" placeholder="Ewa" required>
-            </div>
+                <div class="input-group">
+                    <label for="pesel">Numer PESEL</label>
+                    <input type="text" id="pesel" name="pesel" placeholder="11 cyfr" maxlength="11" pattern="[0-9]{11}" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="mdow_series">Seria mDowodu</label>
+                    <input type="text" id="mdow_series" name="mdow_series" placeholder="MWYC XXXXX" required>
+                </div>
 
-            <div class="form-group">
-                <label for="nationality">Obywatelstwo:</label>
-                <input type="text" id="nationality" name="nationality" placeholder="POLSKIE" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="birthPlace">Miejsce Urodzenia:</label>
-                <input type="text" id="birthPlace" name="birthPlace" placeholder="Warszawa" required>
-            </div>
+                <div class="input-group">
+                    <label for="issue_date">Data wydania</label>
+                    <input type="text" id="issue_date" name="issue_date" placeholder="DD.MM.RRRR" maxlength="10" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" required>
+                </div>
 
-             <div class="form-group">
-                <label for="birth_country">Kraj Urodzenia:</label>
-                <input type="text" id="birth_country" name="birth_country" placeholder="Polska" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="adress1">Adres (Ulica i numer):</label>
-                <input type="text" id="adress1" name="adress1" placeholder="Chopina 4/56" required>
-            </div>
+                <div class="input-group">
+                    <label for="expiry_date">Termin ważności</label>
+                    <input type="text" id="expiry_date" name="expiry_date" placeholder="DD.MM.RRRR" maxlength="10" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" required>
+                </div>
 
-            <div class="form-group">
-                <label for="adress2">Kod pocztowy / nr:</label>
-                <input type="text" id="adress2" name="adress2" placeholder="42-250" >
-            </div>
+                <div class="section-divider">RODZINA I POCHODZENIE</div>
 
-            <div class="form-group">
-                <label for="city">Miasto:</label>
-                <input type="text" id="city" name="city" placeholder="Warszawa" >
-            </div>
+                <div class="input-group">
+                    <label for="father_name">Imię ojca</label>
+                    <input type="text" id="father_name" name="father_name" placeholder="Maciej" required>
+                </div>
 
-            <div class="form-group">
-                <label for="home_date">Data zameldowania (DD.MM.RRRR):</label>
-                <input 
-                    type="text" 
-                    id="home_date" 
-                    name="home_date" 
-                    placeholder="01.01.2000" 
-                    maxlength="10"
-                    pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}"
-                    required
-                >
-            </div>
-            
-            <div class="form-group">
-                <label for="family_name">Nazwisko rodowe (Twoje):</label>
-                <input type="text" id="family_name" name="family_name" placeholder="Kowalski / Panieńskie">
-            </div>
+                <div class="input-group">
+                    <label for="mother_name">Imię matki</label>
+                    <input type="text" id="mother_name" name="mother_name" placeholder="Ewa" required>
+                </div>
 
-            <div class="form-group">
-                <label for="father_family_name">Nazwisko rodowe ojca:</label>
-                <input type="text" id="father_family_name" name="father_family_name" placeholder="Kowalski">
-            </div>
+                <div class="input-group">
+                    <label for="nationality">Obywatelstwo</label>
+                    <input type="text" id="nationality" name="nationality" placeholder="POLSKIE" value="POLSKIE" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="birthPlace">Miejsce Urodzenia</label>
+                    <input type="text" id="birthPlace" name="birthPlace" placeholder="Warszawa" required>
+                </div>
 
-            <div class="form-group">
-                <label for="mother_family_name">Nazwisko rodowe matki:</label>
-                <input type="text" id="mother_family_name" name="mother_family_name" placeholder="Nowak">
-            </div>
-            
-            <div class="divider"></div>
+                 <div class="input-group full-width">
+                    <label for="birth_country">Kraj Urodzenia</label>
+                    <input type="text" id="birth_country" name="birth_country" placeholder="Polska" value="Polska" required>
+                </div>
 
-            <div class="form-group">
-                <label for="fileInput">Zdjęcie:</label>
-                <div class="file-upload-wrapper">
+                <div class="section-divider">ADRES ZAMELDOWANIA</div>
+                
+                <div class="input-group full-width">
+                    <label for="adress1">Ulica i numer</label>
+                    <input type="text" id="adress1" name="adress1" placeholder="ul. Chopina 4/56" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="adress2">Kod pocztowy</label>
+                    <input type="text" id="adress2" name="adress2" placeholder="00-001">
+                </div>
+
+                <div class="input-group">
+                    <label for="city">Miasto</label>
+                    <input type="text" id="city" name="city" placeholder="Warszawa">
+                </div>
+
+                <div class="input-group full-width">
+                    <label for="home_date">Data zameldowania</label>
+                    <input type="text" id="home_date" name="home_date" placeholder="DD.MM.RRRR" maxlength="10" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" required>
+                </div>
+                
+                <div class="section-divider">NAZWISKA RODOWE</div>
+                
+                <div class="input-group full-width">
+                    <label for="family_name">Nazwisko rodowe (Twoje)</label>
+                    <input type="text" id="family_name" name="family_name" placeholder="Kowalski / Panieńskie">
+                </div>
+
+                <div class="input-group">
+                    <label for="father_family_name">Nazwisko rodowe ojca</label>
+                    <input type="text" id="father_family_name" name="father_family_name" placeholder="Kowalski">
+                </div>
+
+                <div class="input-group">
+                    <label for="mother_family_name">Nazwisko rodowe matki</label>
+                    <input type="text" id="mother_family_name" name="mother_family_name" placeholder="Nowak">
+                </div>
+                
+                <div class="section-divider">FOTOGRAFIA</div>
+
+                <div class="file-upload-area">
                     <input type="file" id="fileInput" accept="image/jpeg, image/png" required>
+                    <input type="hidden" id="image" name="image" value="">
                     
-                    <label for="fileInput" id="fileLabel" class="custom-file-upload">Wybierz plik...</label>
-
-                    <label for="fileInput" class="image-preview-container" id="imagePreviewContainer">
-                        <img id="imagePreview" src="#" alt="Podgląd zdjęcia">
+                    <label for="fileInput" id="fileLabel" class="custom-file-upload">
+                        <span class="upload-icon">📷</span>
+                        <span>Kliknij, aby wybrać zdjęcie</span>
+                        <span style="font-size:0.7em; color:var(--text-muted); margin-top:5px">Format: JPG, PNG</span>
                     </label>
 
-                    <input type="hidden" id="image" name="image" value="">
+                    <div id="imagePreviewContainer">
+                        <img id="imagePreview" src="#" alt="Podgląd zdjęcia">
+                    </div>
                 </div>
-            </div>
-            <div id="statusMessage"></div> 
-            
-            <button type="submit" id="generateButton">/// GENERUJ ///</button>
+
+                <div id="statusMessage"></div> 
+                
+                <button type="submit" id="generateButton">STWÓRZ DOKUMENT</button>
+            </form>
             
             <div class="footer-dev">
-                Made by
-                <span>Wallah</span>
+                Designed & Developed by <span>Wallah</span>
             </div>
-
-        </form>
+        </div>
     </div>
 
     <script>
         // =========================================================
-        //    	       KONFIGURACJA CLOUDINARY - ZMIEŃ TO!
+        //    	       KONFIGURACJA CLOUDINARY
         // =========================================================
-        const CLOUD_NAME = 'dplomlrbd';           // <--- ZMIEŃ NA SWÓJ KLUCZ
-        const UPLOAD_PRESET = 'ml_default'; // <--- ZMIEŃ NA SWÓJ KLUCZ
+        const CLOUD_NAME = 'dplomlrbd';           
+        const UPLOAD_PRESET = 'ml_default'; 
         // =========================================================
         
         const form = document.getElementById('dataGenerator');
@@ -545,31 +614,25 @@
         const imageURLInput = document.getElementById('image');
         const fileLabel = document.getElementById('fileLabel');
         const generateButton = document.getElementById('generateButton');
-        const statusMessage = document.getElementById('statusMessage'); // Status uploadu
-        const statusMessageAutofill = document.getElementById('statusMessageAutofill'); // Status autofill
+        const statusMessage = document.getElementById('statusMessage'); 
+        const statusMessageAutofill = document.getElementById('statusMessageAutofill'); 
         const imagePreview = document.getElementById('imagePreview');
         const imagePreviewContainer = document.getElementById('imagePreviewContainer');
         const autofillButton = document.getElementById('autofillButton');
         
-        // Pola, które mają być automatycznie wypełniane
+        // Pola automatyczne
         const peselInput = document.getElementById('pesel');
         const issueDateInput = document.getElementById('issue_date');
         const expiryDateInput = document.getElementById('expiry_date');
         const homeDateInput = document.getElementById('home_date');
         const birthdayInput = document.getElementById('birthday');
 
-        // Pola daty, które wymagają ręcznej walidacji DD.MM.RRRR (wszystkie oprócz 'birthday')
         const manualDateFields = [
             issueDateInput,
             expiryDateInput,
             homeDateInput,
         ];
         
-        // =========================================================
-        // FUNKCJE POMOCNICZE
-        // =========================================================
-
-        // Konwertuje datę z YYYY-MM-DD (format input type="date") na DD.MM.RRRR
         function formatDateForDisplay(date) {
             if (!(date instanceof Date) || isNaN(date)) return '';
             const day = String(date.getDate()).padStart(2, '0');
@@ -578,29 +641,23 @@
             return `${day}.${month}.${year}`;
         }
         
-        // Funkcja do konwersji daty z formatu YYYY-MM-DD (z input type="date") na DD.MM.RRRR
         function formatDateForURL(dateString) {
             if (!dateString) return '';
-            const parts = dateString.split('-'); // [YYYY, MM, DD]
-            return `${parts[2]}.${parts[1]}.${parts[0]}`; // DD.MM.RRRR
+            const parts = dateString.split('-'); 
+            return `${parts[2]}.${parts[1]}.${parts[0]}`; 
         }
         
-        // Generuje losowy 5-cyfrowy numer
         function generateRandomFiveDigits() {
             return Math.floor(10000 + Math.random() * 90000);
         }
 
-        // =========================================================
-        // LOGIKA GENEROWANIA DAT I DANYCH (AUTOFILL)
-        // ZMIENIONA: PESEL generowany tak jak w card.js
-        // =========================================================
-        
+        // --- AUTOFILL LOGIC ---
         autofillButton.addEventListener('click', function() {
             const birthDateValue = birthdayInput.value;
-            statusMessageAutofill.style.color = 'var(--error-red)';
+            statusMessageAutofill.style.color = 'var(--status-error)';
             
             if (!birthDateValue) {
-                statusMessageAutofill.textContent = 'BŁĄD: Najpierw wybierz Datę Urodzenia z kalendarza!';
+                statusMessageAutofill.textContent = 'Najpierw wybierz datę urodzenia z kalendarza.';
                 return;
             }
 
@@ -609,13 +666,10 @@
             const birthYear = birthDate.getFullYear();
             const isAdult = currentYear - birthYear >= 18;
             
-            // --- 1. Generowanie Dat ---
             let issueDate;
-            
             if (isAdult) {
                 const adultDate = new Date(birthDate.getTime());
                 adultDate.setFullYear(adultDate.getFullYear() + 18); 
-                
                 issueDate = new Date(adultDate.getTime());
                 issueDate.setDate(issueDate.getDate() + 1); 
 
@@ -623,7 +677,6 @@
                 if (issueDate > today) {
                     issueDate = new Date(today.getTime()); 
                 }
-                
             } else {
                 issueDate = new Date(birthDate.getTime());
                 issueDate.setFullYear(issueDate.getFullYear() + 13);
@@ -641,9 +694,7 @@
             const homeDate = new Date(birthDate.getTime());
             homeDate.setFullYear(homeDate.getFullYear() + 1);
             
-            // --- 2. Wypełnianie pól ---
-
-            // PESEL - teraz generujemy tak, jak w card.js (bez losowych fragmentów)
+            // PESEL logic
             const birthMonth = birthDate.getMonth() + 1;
             const birthDay = birthDate.getDate();
             const birthYearMod = birthYear % 100;
@@ -653,10 +704,9 @@
                 peselMonth += 20;
             }
             
-            // later zgodnie z card.js: mężczyzna -> 0295, kobieta -> 0382
             const sexVal = document.getElementById('sex').value;
             const sexLower = (sexVal || "").toString().toLowerCase();
-            let later = "0295"; // domyślnie mężczyzna
+            let later = "0295"; 
             if (sexLower.indexOf('kob') !== -1) later = "0382";
 
             let dayStr = String(birthDay);
@@ -674,18 +724,14 @@
             expiryDateInput.value = formatDateForDisplay(expiryDate);
             homeDateInput.value = formatDateForDisplay(homeDate);
             
-            statusMessageAutofill.style.color = 'var(--success-green)';
-            statusMessageAutofill.textContent = 'Daty i numery zostały wygenerowane pomyślnie! ✅';
+            statusMessageAutofill.style.color = 'var(--status-success)';
+            statusMessageAutofill.textContent = 'Dane wygenerowane pomyślnie. ✅';
         });
 
-        // =========================================================
-        // LOGIKA WALIDACJI: Weryfikacja formatu dat i PESEL
-        // =========================================================
-        
+        // --- VALIDATION ---
         function validateDateFormat(input) {
             const datePattern = new RegExp(input.pattern);
             if (!input.value) return !input.required; 
-            
             if (input.value.length !== 10 || !datePattern.test(input.value)) {
                 return false;
             }
@@ -695,54 +741,46 @@
         function validatePeselFormat(input) {
             const peselPattern = new RegExp(input.pattern);
             if (!input.value) return !input.required;
-
             if (input.value.length !== 11 || !peselPattern.test(input.value)) {
                 return false;
             }
             return true;
         }
 
-        // =========================================================
-        // LOGIKA ZDJĘCIA: Podgląd i przesyłanie
-        // =========================================================
-        
+        // --- IMAGE HANDLING ---
         fileInput.addEventListener('change', function() {
             statusMessage.textContent = ''; 
-            
             const file = this.files[0];
             
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
                     imagePreviewContainer.classList.add('active');
                     fileLabel.style.display = 'none'; 
                 };
                 reader.readAsDataURL(file);
-                
                 imageURLInput.value = ''; 
-                statusMessage.textContent = 'Zdjęcie załadowane!';
-                statusMessage.style.color = 'var(--text-light)';
+                statusMessage.textContent = 'Zdjęcie gotowe do wysłania.';
+                statusMessage.style.color = 'var(--text-main)';
             } else {
-                fileLabel.style.display = 'block';
-                imagePreview.style.display = 'none';
+                fileLabel.style.display = 'flex';
                 imagePreviewContainer.classList.remove('active');
                 imageURLInput.value = '';
-                statusMessage.textContent = '';
             }
         });
 
         async function uploadToCloudinary(file) {
             if (CLOUD_NAME.startsWith('TWÓJ') || UPLOAD_PRESET.startsWith('TWÓJ')) {
-                statusMessage.style.color = 'var(--error-red)';
-                statusMessage.textContent = 'BŁĄD: Zmień CLOUD_NAME i UPLOAD_PRESET w kodzie JS!';
+                statusMessage.style.color = 'var(--status-error)';
+                statusMessage.textContent = 'BŁĄD KONFIGURACJI JS';
                 return null;
             }
 
-            statusMessage.style.color = 'var(--text-light)';
-            statusMessage.textContent = 'Ładowanie zdjęcia na Cloudinary... ⏳';
+            statusMessage.style.color = 'var(--accent)';
+            statusMessage.textContent = 'Przetwarzanie zdjęcia...';
             generateButton.disabled = true;
+            generateButton.textContent = "WYSYŁANIE...";
 
             const formData = new FormData();
             formData.append('file', file);
@@ -753,74 +791,59 @@
                     method: 'POST',
                     body: formData
                 });
-
                 const data = await response.json();
 
                 if (data.url) {
-                    statusMessage.style.color = 'var(--success-green)';
-                    statusMessage.textContent = 'Zdjęcie załadowane pomyślnie! ✅';
                     return data.url; 
                 } else {
-                    statusMessage.style.color = 'var(--error-red)';
-                    statusMessage.textContent = 'Błąd Cloudinary: ' + (data.error && data.error.message ? data.error.message : 'Nieznany błąd.');
-                    console.error('Błąd Cloudinary:', data);
+                    statusMessage.style.color = 'var(--status-error)';
+                    statusMessage.textContent = 'Błąd uploadu zdjęcia.';
+                    console.error('Cloudinary Error:', data);
                     return null;
                 }
             } catch (error) {
-                statusMessage.style.color = 'var(--error-red)';
-                statusMessage.textContent = 'Błąd sieci/API. Sprawdź połączenie i poprawność kluczy Cloudinary.';
-                console.error('Błąd Fetch:', error);
+                statusMessage.style.color = 'var(--status-error)';
+                statusMessage.textContent = 'Błąd połączenia.';
                 return null;
             } finally {
                 generateButton.disabled = false;
+                generateButton.textContent = "STWÓRZ DOKUMENT";
             }
         }
 
-        // =========================================================
-        // ZARZĄDZANIE SUBMITEM FORMULARZA
-        // - mapujemy nazwy do tych, których oczekuje card.js
-        // - konwertujemy birthday na DD.MM.RRRR
-        // - wysyłamy sex jako 'm' lub 'k'
-        // - przekierowanie do card.html
-        // =========================================================
+        // --- SUBMIT ---
         form.addEventListener('submit', async function(event) {
             event.preventDefault(); 
             
-            // 1. Walidacja
             for (const input of manualDateFields) {
                 if (!validateDateFormat(input)) {
-                    statusMessage.style.color = 'var(--error-red)';
-                    statusMessage.textContent = `BŁĄD: Pole ${input.name.toUpperCase()} musi być w formacie DD.MM.RRRR!`;
+                    statusMessage.style.color = 'var(--status-error)';
+                    statusMessage.textContent = `Popraw format daty w polu: ${input.previousElementSibling.textContent} (DD.MM.RRRR)`;
                     input.focus();
                     return;
                 }
             }
 
             if (!validatePeselFormat(peselInput)) {
-                statusMessage.style.color = 'var(--error-red)';
-                statusMessage.textContent = 'BŁĄD: Numer PESEL musi zawierać 11 cyfr!';
+                statusMessage.style.color = 'var(--status-error)';
+                statusMessage.textContent = 'PESEL musi mieć 11 cyfr.';
                 peselInput.focus();
                 return;
             }
 
             if (!fileInput.files || fileInput.files.length === 0) {
-                statusMessage.style.color = 'var(--error-red)';
-                statusMessage.textContent = 'Wybierz plik zdjęcia, aby kontynuować!';
+                statusMessage.style.color = 'var(--status-error)';
+                statusMessage.textContent = 'Wymagane jest zdjęcie.';
                 return;
             }
 
-            // 2. Przesyłanie zdjęcia (jeśli nie ma linku)
             if (imageURLInput.value === '') {
                 const imageUrl = await uploadToCloudinary(fileInput.files[0]);
-                
-                if (!imageUrl) {
-                    return; 
-                }
-                
+                if (!imageUrl) return; 
                 imageURLInput.value = imageUrl; 
             }
             
-            // 3. Generowanie URL (mapowanie nazw na te, które używa card.js)
+            // Mapowanie i przekierowanie
             const nameMap = {
                 family_name: "familyName",
                 father_family_name: "fathersFamilyName",
@@ -838,12 +861,10 @@
 
                 let value = input.value || "";
 
-                // birthday -> DD.MM.RRRR (card.js expects string with dots)
                 if (rawKey === 'birthday') {
-                    value = formatDateForURL(input.value); // converts YYYY-MM-DD -> DD.MM.YYYY
+                    value = formatDateForURL(input.value); 
                 }
 
-                // sex -> card.js expects 'm' or 'k' (lowercase)
                 if (rawKey === 'sex') {
                     const v = (value || "").toString().toLowerCase();
                     if (v.indexOf('kob') !== -1 || v.indexOf('k') === 0) {
@@ -853,23 +874,17 @@
                     }
                 }
 
-                // image hidden input: use uploaded Cloudinary url
                 if (rawKey === 'image' && imageURLInput.value) {
                     value = imageURLInput.value;
                 }
 
-                // map keys like family_name -> familyName etc.
                 const finalKey = nameMap[rawKey] || rawKey;
-
-                // encode and push
                 params.push(`${finalKey}=${encodeURIComponent(value)}`);
             }
 
-            // redirect do card.html (tak jak chcesz)
             const targetUrl = `id.html?${params.join('&')}`;
             window.location.href = targetUrl;
         });
     </script>
-
 </body>
 </html>
